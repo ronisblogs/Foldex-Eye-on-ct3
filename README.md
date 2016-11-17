@@ -25,6 +25,7 @@ delete 'Option	"HWCursor" "false"' line from /etc/X11/xorg.conf
  at root directory, using 'qmake -project' to generate the .pro file. Then you need to **modify** this file. add 
 
  QT += qml quick
+ 
  CONFIG += c++11
 
 to the top of this file.
@@ -33,4 +34,4 @@ to the top of this file.
  change to the build directory, using 'qmake ../Foldex-Eye-on-ct3.pro' to generate the Makefile file.
 
 ### make
- after Makefile is generated, then execute 'make -j4' command to build all the source files. 
+ after Makefile is generated, execute 'make -j4' command to build all the source files. 
