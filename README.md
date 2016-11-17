@@ -5,6 +5,7 @@
 ### add unstable app source
 edit /etc/apt/sources.list, add below lines:
  deb http://httpredir.debian.org/debian/ unstable main non-free contrib
+ 
  deb-src http://httpredir.debian.org/debian/ unstable main non-free contrib
 
 ### install qt build tools
