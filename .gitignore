@@ -4,6 +4,12 @@
 *.o
 *.obj
 
+*.pro
+Makefile
+
+
+build/
+
 # Precompiled Headers
 *.gch
 *.pch
