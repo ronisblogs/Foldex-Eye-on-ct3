@@ -1,5 +1,9 @@
 # Foldex-Eye-on-ct3
 
+## original source
+
+https://github.com/rtty122333/Foldex-Eye
+
 ## Install depends
 
 ### add unstable app source
