@@ -39,3 +39,7 @@ to the top of this file.
 
 ### make
  after Makefile is generated, execute 'make -j4' command to build all the source files. 
+ 
+ ## Install virt-manager
+ 
+ apt-get install virt-manager
