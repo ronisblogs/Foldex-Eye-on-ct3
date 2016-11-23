@@ -1,10 +1,10 @@
-#ifndef SPICE_PROCESS_H
-#define SPICE_PROCESS_H
+#ifndef REMOTE_DESKTOP_PROCESS_H
+#define REMOTE_DESKTOP_PROCESS_H
 
 #include <QProcess>
 #include <QVariant>
 
-class SpiceProcess : public QProcess
+class RemoteDesktopProcess : public QProcess
 {
     Q_OBJECT
     QString _username;
@@ -16,7 +16,7 @@ class SpiceProcess : public QProcess
     bool _dragFullWindow;
 
 public:
-    explicit SpiceProcess(QObject *parent = 0);
+    explicit RemoteDesktopProcess(QObject *parent = 0);
 
     Q_PROPERTY(QString username READ username WRITE setUsername)
     Q_PROPERTY(QString password READ password WRITE setPassword)
@@ -51,4 +51,4 @@ public slots:
 
 };
 
-#endif // SPICE_PROCESS_H
+#endif // REMOTE_DESKTOP_PROCESS_H

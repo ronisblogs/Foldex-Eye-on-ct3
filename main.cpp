@@ -3,9 +3,9 @@
 #include <QWindow>
 #include <QtQml>
 #include <QSslSocket>
+
 #include "httprequest.h"
-#include "rdpprocess.h"
-#include "spiceprocess.h"
+#include "RemoteDesktopProcess.h"
 #include "heartbeat.h"
 #include "systempower.h"
 #include "ipsettings.h"
@@ -42,8 +42,7 @@ int main(int argc, char *argv[])
 
     // 注册 C++ 插件类
     qmlRegisterType<HTTPRequest>("com.evercloud.http", 0, 1, "Request");
-    qmlRegisterType<RDPProcess>("com.evercloud.rdp", 0, 1, "RDPProcess");
-	qmlRegisterType<SpiceProcess>("com.evercloud.spice", 0, 1, "SpiceProcess");
+    qmlRegisterType<RemoteDesktopProcess>("com.evercloud.rdp", 0, 1, "RemoteDesktopProcess");
     qmlRegisterType<HeartBeat>("com.evercloud.conn", 0, 1, "HeartBeat");
     qmlRegisterType<SystemPower>("com.evercloud.sys", 0, 1, "SystemPower");
     qmlRegisterType<IPSettings>("com.evercloud.sys", 0, 1, "IPSettings");

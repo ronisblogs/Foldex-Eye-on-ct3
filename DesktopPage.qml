@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQml.Models 2.2
 import Material 0.2
 
-import com.evercloud.spice 0.1
+import com.evercloud.rdp 0.1		//remote desktop process, not protocol
 import com.evercloud.conn 0.1
 import com.evercloud.http 0.1
 import "./settingPage" as Setting
@@ -149,10 +149,8 @@ Page {
         }
     }
 
-    /*RDPProcess {
-        id: rdp
-        smoothFont: true
-        dragFullWindow: false
+	RemoteDesktopProcess {
+        id: rdp				// p is process, not protocol
 
         onErrorOccurred: {
             var err = rdp.errorCode();
@@ -187,46 +185,6 @@ Page {
             disconn_request.jsonData = JSON.stringify({ "token": UserConnection.token, "vm_id": UserConnection.currentVm });
             disconn_request.sendJson();
         }
-    }*/
-
-	SpiceProcess {
-        id: spice
-        //smoothFont: true
-        //dragFullWindow: false
-
-        onErrorOccurred: {
-            var err = spice.errorCode();
-            prompt.open("无法连接到桌面：" + err)
-        }
-
-        onFinished: {
-            var code = spice.status();
-            if (desktop_selection.heartbeat_error) { // 心跳异常，需要重新登录
-                desktop_selection.pop();
-            }
-            if (code !== 0) {
-                prompt.open("连接错误：" + spice.status())
-            } else if (new Date() - desktop_selection.session_start < 1000) {
-                // 1秒内断开，可能是vm未完全启动，或其他异常情况，重试
-                if (desktop_selection.rdp_retry == 20) {
-                    // 重试次数超过阈值
-                    prompt.open("无法连接到桌面");
-                } else {
-                    desktop_selection.rdp_retry++;
-                    rdp_repeater.start();
-                    return;
-                }
-            }
-            conn_progress.visible = false;
-            vm_buttons.visible = true;
-            desktop_selection.rdp_retry = 0;
-
-            heartbeat.startSending(UserConnection.token);
-            // 断开连接
-            disconn_request.url = "http://" + serversetting.server + ":8893/v1/disconn";
-            disconn_request.jsonData = JSON.stringify({ "token": UserConnection.token, "vm_id": UserConnection.currentVm });
-            disconn_request.sendJson();
-        }
     }
 	
 
@@ -240,13 +198,13 @@ Page {
 			if ("spice" == protocol) {
 				if (code === 200) {
 
-					spice.username = UserConnection.username;
-		            spice.password = UserConnection.password;
-		            spice.host = response[UserConnection.currentVm]["vm_ip"];
-		            spice.port = response[UserConnection.currentVm]["vm_port"];
+					rdp.username = UserConnection.username;
+		            rdp.password = UserConnection.password;
+		            rdp.host = response[UserConnection.currentVm]["vm_ip"];
+		            rdp.port = response[UserConnection.currentVm]["vm_port"];
 
 		            desktop_selection.session_start = new Date();
-		            spice.start();
+		            rdp.start();
 		            heartbeat.startSending(UserConnection.token, UserConnection.currentVm);
 		        } else {
 		            prompt.open("无法启动虚拟机：" + response["err"])
