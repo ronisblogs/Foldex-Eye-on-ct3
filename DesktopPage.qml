@@ -191,46 +191,26 @@ Page {
     Request {
         id: request
         onResponseChanged: {
-			var protocol = "spice";
             var code = request.code;
             var response = JSON.parse(request.response);
 
-			if ("spice" == protocol) {
-				if (code === 200) {
+			if (code === 200) {
+                rdp.protocol = response[UserConnection.currentVm]["protocol"];
+				rdp.username = UserConnection.username;
+	            rdp.password = UserConnection.password;
+	            rdp.host = response[UserConnection.currentVm]["vm_ip"];
+	            rdp.port = response[UserConnection.currentVm]["vm_port"];
 
-					rdp.username = UserConnection.username;
-		            rdp.password = UserConnection.password;
-		            rdp.host = response[UserConnection.currentVm]["vm_ip"];
-		            rdp.port = response[UserConnection.currentVm]["vm_port"];
+	            desktop_selection.session_start = new Date();
+	            rdp.start();
+	            heartbeat.startSending(UserConnection.token, UserConnection.currentVm);
+	        } else {
+	            prompt.open("无法启动虚拟机：" + response["err"])
+	            conn_progress.visible = false;
+	            vm_buttons.visible = true;
+	            desktop_selection.rdp_retry = 0;
 
-		            desktop_selection.session_start = new Date();
-		            rdp.start();
-		            heartbeat.startSending(UserConnection.token, UserConnection.currentVm);
-		        } else {
-		            prompt.open("无法启动虚拟机：" + response["err"])
-		            conn_progress.visible = false;
-		            vm_buttons.visible = true;
-		            desktop_selection.rdp_retry = 0;
-
-		        }		
-			}
-			else if("rdp" == protocol) {
-				if (code === 200) {
-		            rdp.username = UserConnection.username;
-		            rdp.password = UserConnection.password;
-		            rdp.host = response[UserConnection.currentVm]["rdp_ip"];
-		            rdp.port = response[UserConnection.currentVm]["rdp_port"];
-		            rdp.policy = response[UserConnection.currentVm]["policy"];
-		            desktop_selection.session_start = new Date();
-		            rdp.start();
-		            heartbeat.startSending(UserConnection.token, UserConnection.currentVm);
-		        } else {
-		            prompt.open("无法启动虚拟机：" + response["err"])
-		            conn_progress.visible = false;
-		            vm_buttons.visible = true;
-		            desktop_selection.rdp_retry = 0;
-		        }
-			}
+	        }		
         }
     }
 
